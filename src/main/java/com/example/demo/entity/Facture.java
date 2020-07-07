@@ -16,7 +16,7 @@ public class Facture {
     @ManyToOne
     private Client client;
 
-    @OneToMany(mappedBy = "facture")
+    @OneToMany(mappedBy = "facture", cascade = CascadeType.ALL)
     private Set<LigneFacture> ligneFactures;
 
     public Long getId() {

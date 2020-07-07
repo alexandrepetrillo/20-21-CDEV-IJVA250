@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Service contenant les actions métiers liées aux articles.
@@ -26,4 +27,9 @@ public class ArticleServiceImpl implements ArticleService {
         return articleRepository.findAll();
     }
 
+    @Override
+    public Article findById(long articleId) {
+        Optional<Article> article = articleRepository.findById(articleId);
+        return article.get();
+    }
 }

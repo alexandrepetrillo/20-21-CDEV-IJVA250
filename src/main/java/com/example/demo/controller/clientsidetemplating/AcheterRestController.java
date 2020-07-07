@@ -1,6 +1,8 @@
 package com.example.demo.controller.clientsidetemplating;
 
 import com.example.demo.controller.clientsidetemplating.dto.AchatDto;
+import com.example.demo.service.FactureService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,9 @@ import java.util.List;
 @RequestMapping("rest/acheter")
 public class AcheterRestController {
 
+    @Autowired
+    private FactureService factureService;
+
     /**
      * Exposition d'une api déclenchée sur l'url http://..../articles.
      *
@@ -23,6 +28,7 @@ public class AcheterRestController {
     @PostMapping
     public void acheter(@RequestBody List<AchatDto> achats) {
         System.out.println(achats);
+        factureService.creerFacture(achats);
     }
 
 }
