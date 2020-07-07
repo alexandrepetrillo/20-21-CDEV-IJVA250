@@ -10,5 +10,5 @@ public interface FactureService {
 
     Facture findById(Long id);
 
-    void creerFacture(List<AchatDto> achats);
+    Facture creerFacture(List<AchatDto> achats);
 }

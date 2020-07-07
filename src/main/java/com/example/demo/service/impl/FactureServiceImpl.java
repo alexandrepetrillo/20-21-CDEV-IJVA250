@@ -51,7 +51,7 @@ public class FactureServiceImpl implements FactureService {
     }
 
     @Override
-    public void creerFacture(List<AchatDto> achats) {
+    public Facture creerFacture(List<AchatDto> achats) {
         Client client = getClientConnecte();
 
         Facture facture = new Facture();
@@ -68,6 +68,7 @@ public class FactureServiceImpl implements FactureService {
         }
         facture.setLigneFactures(lignesFactures);
         factureRepository.save(facture);
+        return facture;
     }
 
     private Client getClientConnecte() {
