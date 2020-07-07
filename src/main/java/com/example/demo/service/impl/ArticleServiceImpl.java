@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.controller.clientsidetemplating.dto.ArticleDto;
 import com.example.demo.entity.Article;
 import com.example.demo.repository.ArticleRepository;
 import com.example.demo.service.ArticleService;
@@ -31,5 +32,15 @@ public class ArticleServiceImpl implements ArticleService {
     public Article findById(long articleId) {
         Optional<Article> article = articleRepository.findById(articleId);
         return article.get();
+    }
+
+    @Override
+    public ArticleDto create(ArticleDto dto) {
+        Article article =new Article();
+        article.setLibelle(dto.getLibelle());
+        article.setPrix(dto.getPrix());
+        articleRepository.save(article);
+
+        return new ArticleDto(article.getId(), article.getLibelle(), article.getPrix());
     }
 }

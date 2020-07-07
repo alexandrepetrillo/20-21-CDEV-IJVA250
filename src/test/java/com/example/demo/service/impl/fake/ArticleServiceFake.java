@@ -1,5 +1,6 @@
 package com.example.demo.service.impl.fake;
 
+import com.example.demo.controller.clientsidetemplating.dto.ArticleDto;
 import com.example.demo.entity.Article;
 import com.example.demo.service.ArticleService;
 
@@ -15,5 +16,10 @@ public class ArticleServiceFake implements ArticleService {
     public Article findById(long articleId) {
         Article articleFake = new Article();
         return articleFake;
+    }
+
+    @Override
+    public ArticleDto create(ArticleDto dto) {
+        return null;
     }
 }

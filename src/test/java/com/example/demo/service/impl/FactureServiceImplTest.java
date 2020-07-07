@@ -12,7 +12,6 @@ import com.example.demo.service.impl.fake.ArticleServiceFake;
 import com.example.demo.service.impl.fake.ClientServiceFake;
 import com.example.demo.service.impl.fake.FactureRepositoryFake;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +48,7 @@ public class FactureServiceImplTest {
     }
 
 
+    // possiblité d'utiliser les annotations Mockito (@Mock)
     FactureRepository factureRepository = mock(FactureRepository.class);
     ArticleService articleService = mock(ArticleService.class);
     ClientService clientService = mock(ClientService.class);
@@ -63,6 +63,7 @@ public class FactureServiceImplTest {
         when(articleService.findById(999)).thenReturn(article);
 
         // on va appeler la méthode à tester
+        // possiblité d'utiliser l'annotation Mockito (@InjectMock)
         FactureServiceImpl factureServiceImpl = new FactureServiceImpl(
                 factureRepository,
                 articleService,
@@ -83,6 +84,7 @@ public class FactureServiceImplTest {
         assertThat(firstLigneFacture.getQuantite()).isEqualTo(2);
         assertThat(firstLigneFacture.getArticle().getId()).isEqualTo(999);
 
+        // possibilité d'utiliser les arguments captor pour vérifier plus précisement le paramètre qui a été donné
         verify(factureRepository).save(any());
     }
 
