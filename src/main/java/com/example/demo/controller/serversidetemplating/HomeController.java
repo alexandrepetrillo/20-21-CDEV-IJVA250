@@ -1,5 +1,6 @@
 package com.example.demo.controller.serversidetemplating;
 
+import com.example.demo.controller.clientsidetemplating.dto.ArticleDto;
 import com.example.demo.entity.Article;
 import com.example.demo.entity.Client;
 import com.example.demo.entity.Facture;
@@ -37,7 +38,7 @@ public class HomeController {
         ModelAndView modelAndView = new ModelAndView("home");
 
         // Chargement des articles
-        List<Article> articles = articleService.findAll();
+        List<ArticleDto> articles = articleService.findAll();
         // et "stockage" dans une variable nommé "articles"
         modelAndView.addObject("articles", articles);
 

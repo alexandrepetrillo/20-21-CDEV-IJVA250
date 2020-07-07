@@ -5,16 +5,17 @@ import com.example.demo.entity.Article;
 import com.example.demo.entity.Client;
 import com.example.demo.entity.Facture;
 import com.example.demo.entity.LigneFacture;
+import com.example.demo.repository.ArticleRepository;
 import com.example.demo.repository.FactureRepository;
-import com.example.demo.service.ArticleService;
 import com.example.demo.service.ClientService;
-import com.example.demo.service.impl.fake.ArticleServiceFake;
+import com.example.demo.service.impl.fake.ArticleRepositoryFake;
 import com.example.demo.service.impl.fake.ClientServiceFake;
 import com.example.demo.service.impl.fake.FactureRepositoryFake;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,7 +30,7 @@ public class FactureServiceImplTest {
         // on va appeler la méthode à tester
         FactureServiceImpl factureServiceImpl = new FactureServiceImpl(
                 new FactureRepositoryFake(),
-                new ArticleServiceFake(),
+                new ArticleRepositoryFake(),
                 new ClientServiceFake()
         );
 
@@ -50,7 +51,7 @@ public class FactureServiceImplTest {
 
     // possiblité d'utiliser les annotations Mockito (@Mock)
     FactureRepository factureRepository = mock(FactureRepository.class);
-    ArticleService articleService = mock(ArticleService.class);
+    ArticleRepository articleRepository  = mock(ArticleRepository.class);
     ClientService clientService = mock(ClientService.class);
 
     @Test
@@ -60,13 +61,13 @@ public class FactureServiceImplTest {
 
         Article article = new Article();
         article.setId(999L);
-        when(articleService.findById(999)).thenReturn(article);
+        when(articleRepository.findById(999L)).thenReturn(Optional.of(article));
 
         // on va appeler la méthode à tester
         // possiblité d'utiliser l'annotation Mockito (@InjectMock)
         FactureServiceImpl factureServiceImpl = new FactureServiceImpl(
                 factureRepository,
-                articleService,
+                articleRepository,
                 clientService
         );
 

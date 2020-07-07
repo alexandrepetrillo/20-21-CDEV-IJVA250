@@ -1,5 +1,6 @@
 package com.example.demo.controller.export;
 
+import com.example.demo.controller.clientsidetemplating.dto.ArticleDto;
 import com.example.demo.entity.Article;
 import com.example.demo.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,8 @@ public class ExportArticleController {
         PrintWriter writer = response.getWriter();
 
         writer.println("Libelle;Prix");
-        List<Article> articles = articleService.findAll();
-        for (Article article : articles) {
+        List<ArticleDto> articles = articleService.findAll();
+        for (ArticleDto article : articles) {
             String line = article.getLibelle() + ";" + article.getPrix();
             writer.println(line);
         }

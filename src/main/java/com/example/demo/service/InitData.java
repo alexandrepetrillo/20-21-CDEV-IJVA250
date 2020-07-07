@@ -56,20 +56,9 @@ public class InitData implements ApplicationListener<ApplicationReadyEvent> {
         entityManager.persist(newClient("BOUDART", "Orianne", LocalDate.of(1993, 5, 15)));
         entityManager.persist(newClient("BOULLICAUD", "Paul", LocalDate.of(1995, 5, 14)));
 
-        Article a1 = new Article();
-        a1.setLibelle("Chargeurs de téléphones Portables");
-        a1.setPrix(22.98);
-        entityManager.persist(a1);
-
-        Article a2 = new Article();
-        a2.setLibelle("Playmobil Hydravion de Police");
-        a2.setPrix(14.39);
-        entityManager.persist(a2);
-
-        Article a3 = new Article();
-        a3.setLibelle("Distributeur de croquettes pour chien");
-        a3.setPrix(12.99);
-        entityManager.persist(a3);
+        Article a1 = createArticle("Chargeurs de téléphones Portables", 22.98, 9);
+        Article a2 = createArticle("Playmobil Hydravion de Police", 14.39, 2);
+        Article a3 = createArticle("Distributeur de croquettes pour chien", 12.99, 0);
 
         Facture f1 = new Facture();
         f1.setClient(client1);
@@ -87,6 +76,15 @@ public class InitData implements ApplicationListener<ApplicationReadyEvent> {
         entityManager.persist(f3);
         entityManager.persist(newLigneFacture(f3, a3, 1));
 
+    }
+
+    private Article createArticle(String libelle, double prix, int stock) {
+        Article a1 = new Article();
+        a1.setLibelle(libelle);
+        a1.setPrix(prix);
+        a1.setStock(stock);
+        entityManager.persist(a1);
+        return a1;
     }
 
 

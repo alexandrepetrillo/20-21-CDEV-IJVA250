@@ -24,6 +24,12 @@ public class ArticleRestController {
         return articleService.create(dto);
     }
 
+    @PostMapping("{id}/stock")
+    public ArticleDto modifierStock(
+            @PathVariable Long id,
+            @RequestParam Integer quantity) {
+        return articleService.modifierStock(id, quantity);
+    }
 
     /**
      * Exposition d'une api déclenchée sur l'url http://..../articles.
@@ -33,11 +39,7 @@ public class ArticleRestController {
     @GetMapping
     public List<ArticleDto> getArticles() {
         // Transformation d'une liste de Article en ArticleDto.
-        return articleService
-                .findAll()
-                .stream()
-                .map(a -> new ArticleDto(a.getId(), a.getLibelle(), a.getPrix()))
-                .collect(toList());
+        return articleService.findAll();
     }
 
 }

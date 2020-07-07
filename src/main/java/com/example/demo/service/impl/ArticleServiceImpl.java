@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.stream.Collectors.toList;
+
 /**
  * Service contenant les actions métiers liées aux articles.
  */
@@ -24,23 +26,33 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> findAll() {
-        return articleRepository.findAll();
+    public List<ArticleDto> findAll() {
+        return articleRepository.findAll().stream().map(this::toDto).collect(toList());
     }
 
     @Override
-    public Article findById(long articleId) {
+    public ArticleDto findById(long articleId) {
         Optional<Article> article = articleRepository.findById(articleId);
-        return article.get();
+        return toDto(article.get());
     }
 
     @Override
     public ArticleDto create(ArticleDto dto) {
-        Article article =new Article();
+        Article article = new Article();
         article.setLibelle(dto.getLibelle());
         article.setPrix(dto.getPrix());
         articleRepository.save(article);
+        return toDto(article);
+    }
 
-        return new ArticleDto(article.getId(), article.getLibelle(), article.getPrix());
+    @Override
+    public ArticleDto modifierStock(Long id, Integer quantity) {
+        Article article = articleRepository.findById(id).get();
+        article.setStock(quantity);
+        return toDto(article);
+    }
+
+    private ArticleDto toDto(Article article) {
+        return new ArticleDto(article.getId(), article.getLibelle(), article.getPrix(), article.getStock());
     }
 }

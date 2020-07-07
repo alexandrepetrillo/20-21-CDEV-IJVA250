@@ -5,6 +5,7 @@ import com.example.demo.entity.Article;
 import com.example.demo.entity.Client;
 import com.example.demo.entity.Facture;
 import com.example.demo.entity.LigneFacture;
+import com.example.demo.repository.ArticleRepository;
 import com.example.demo.repository.FactureRepository;
 import com.example.demo.service.ArticleService;
 import com.example.demo.service.ClientService;
@@ -26,17 +27,17 @@ import java.util.Set;
 public class FactureServiceImpl implements FactureService {
 
     private FactureRepository factureRepository;
-    private ArticleService articleService;
+    private ArticleRepository articleRepository;
     private ClientService clientService;
 
     @Autowired
     public FactureServiceImpl(
             FactureRepository factureRepository,
-            ArticleService articleService,
+            ArticleRepository articleRepository,
             ClientService clientService
             ) {
         this.factureRepository = factureRepository;
-        this.articleService = articleService;
+        this.articleRepository = articleRepository;
         this.clientService = clientService;
     }
 
@@ -60,7 +61,7 @@ public class FactureServiceImpl implements FactureService {
         for (AchatDto achat : achats) {
             LigneFacture ligneFacture = new LigneFacture();
             long articleId = achat.getArticleId();
-            Article article = articleService.findById(articleId);
+            Article article = articleRepository.findById(articleId).get();
             ligneFacture.setArticle(article);
             ligneFacture.setQuantite(achat.getQuantite());
             ligneFacture.setFacture(facture);

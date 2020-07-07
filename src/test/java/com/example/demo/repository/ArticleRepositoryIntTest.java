@@ -18,7 +18,7 @@ import java.util.Set;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest  // charge que les Repository et les Entity
-public class ArticleRepositoryTest {
+public class ArticleRepositoryIntTest {
 
     @Autowired
     private ArticleRepository articleRepository;

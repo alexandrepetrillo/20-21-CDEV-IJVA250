@@ -70,7 +70,8 @@ public class FactureRestController {
 
     private LigneFactureDto ligneFactureDto(LigneFacture lf) {
         Article article = lf.getArticle();
-        return new LigneFactureDto(new ArticleDto(article.getId(), article.getLibelle(), article.getPrix()), lf.getQuantite());
+        ArticleDto articleDto = new ArticleDto(article.getId(), article.getLibelle(), article.getPrix(), article.getStock());
+        return new LigneFactureDto(articleDto, lf.getQuantite());
     }
 
 }

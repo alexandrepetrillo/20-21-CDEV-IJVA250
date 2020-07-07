@@ -7,11 +7,17 @@ public class ArticleDto {
     private Long id;
     private String libelle;
     private double prix;
+    private int stock;
 
-    public ArticleDto(Long id, String libelle, double prix) {
+    public ArticleDto() {
+
+    }
+
+    public ArticleDto(Long id, String libelle, double prix, int stock) {
         this.id = id;
         this.libelle = libelle;
         this.prix = prix;
+        this.stock = stock;
     }
 
     public Long getId() {
@@ -36,5 +42,13 @@ public class ArticleDto {
 
     public void setPrix(double prix) {
         this.prix = prix;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 }

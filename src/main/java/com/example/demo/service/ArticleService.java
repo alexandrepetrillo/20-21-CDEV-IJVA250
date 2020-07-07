@@ -6,9 +6,11 @@ import com.example.demo.entity.Article;
 import java.util.List;
 
 public interface ArticleService {
-    List<Article> findAll();
+    List<ArticleDto> findAll();
 
-    Article findById(long articleId);
+    ArticleDto findById(long articleId);
 
     ArticleDto create(ArticleDto dto);
+
+    ArticleDto modifierStock(Long id, Integer quantity);
 }

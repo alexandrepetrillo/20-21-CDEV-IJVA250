@@ -18,6 +18,9 @@ public class Article {
     @Column
     private double prix;
 
+    @Column
+    private int stock;
+
     public Long getId() {
         return id;
     }
@@ -42,4 +45,11 @@ public class Article {
         this.prix = prix;
     }
 
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
 }
