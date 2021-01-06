@@ -1,9 +1,8 @@
 package com.example.demo.controller.serversidetemplating;
 
-import com.example.demo.controller.clientsidetemplating.dto.ArticleDto;
-import com.example.demo.entity.Article;
-import com.example.demo.entity.Client;
-import com.example.demo.entity.Facture;
+import com.example.demo.dto.ArticleDto;
+import com.example.demo.dto.ClientDto;
+import com.example.demo.dto.FactureDto;
 import com.example.demo.service.ArticleService;
 import com.example.demo.service.ClientService;
 import com.example.demo.service.FactureService;
@@ -43,12 +42,12 @@ public class HomeController {
         modelAndView.addObject("articles", articles);
 
         // Chargement des clients
-        List<Client> toto = clientService.findAllClients();
+        List<ClientDto> toto = clientService.findAllClients();
         // et "stockage" dans une variable nommé "clients"
         modelAndView.addObject("clients", toto);
 
         // Idem pour les factures
-        List<Facture> factures = factureService.findAllFactures();
+        List<FactureDto> factures = factureService.findAllFactures();
         modelAndView.addObject("factures", factures);
 
         return modelAndView;

@@ -1,4 +1,4 @@
-package com.example.demo.controller.clientsidetemplating.dto;
+package com.example.demo.dto;
 
 import java.util.List;
 
@@ -9,6 +9,9 @@ public class FactureDto {
     private Long id;
     private ClientDto client;
     private List<LigneFactureDto> ligneFactures;
+
+    public FactureDto() {
+    }
 
     public FactureDto(Long id, ClientDto client, List<LigneFactureDto> ligneFactures) {
         this.id = id;

@@ -1,4 +1,4 @@
-package com.example.demo.controller.clientsidetemplating.dto;
+package com.example.demo.dto;
 
 public class AchatDto {
     private int quantite;

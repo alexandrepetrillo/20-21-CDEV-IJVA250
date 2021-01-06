@@ -1,9 +1,7 @@
 package com.example.demo.controller.export;
 
-import com.example.demo.entity.Facture;
-import com.example.demo.service.ExportPDFITextService;
-import com.example.demo.service.FactureExportXLSX;
-import com.example.demo.service.FactureService;
+import com.example.demo.service.export.ExportPDFITextService;
+import com.example.demo.service.export.FactureExportXLSXService;
 import com.itextpdf.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,10 +21,7 @@ import java.io.IOException;
 public class ExportFactureController {
 
     @Autowired
-    private FactureService factureService;
-
-    @Autowired
-    private FactureExportXLSX facturesExportXLSX;
+    private FactureExportXLSXService facturesExportXLSX;
 
     @Autowired
     private ExportPDFITextService exportPDFITextService;
@@ -38,7 +33,7 @@ public class ExportFactureController {
     public void clientGetFacturesXLSX(@PathVariable Long id, HttpServletResponse response) throws IOException {
         response.setContentType("application/vnd.ms-excel");
         response.setHeader("Content-Disposition", "attachment; filename=\"client-" + id + "-factures.xlsx\"");
-        facturesExportXLSX.factureXLSX(id, response.getOutputStream());
+        facturesExportXLSX.export(id, response.getOutputStream());
     }
 
 
@@ -49,7 +44,7 @@ public class ExportFactureController {
     public void facturesXLSX(HttpServletResponse response) throws IOException {
         response.setContentType("application/vnd.ms-excel");
         response.setHeader("Content-Disposition", "attachment; filename=\"factures.xlsx\"");
-        facturesExportXLSX.factureXLSX(response.getOutputStream());
+        facturesExportXLSX.export(response.getOutputStream());
     }
 
     /**
@@ -57,7 +52,6 @@ public class ExportFactureController {
      */
     @GetMapping("/factures/{id}/pdf")
     public void facturesPDF(HttpServletRequest request, HttpServletResponse response, @PathVariable Long id) throws IOException, DocumentException {
-        Facture facture = factureService.findById(id);
-        exportPDFITextService.export(response.getOutputStream(), facture);
+        exportPDFITextService.export(response.getOutputStream(), id);
     }
 }

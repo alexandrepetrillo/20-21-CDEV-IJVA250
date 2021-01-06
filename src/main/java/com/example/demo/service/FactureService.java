@@ -1,14 +1,14 @@
 package com.example.demo.service;
 
-import com.example.demo.controller.clientsidetemplating.dto.AchatDto;
-import com.example.demo.entity.Facture;
+import com.example.demo.dto.AchatDto;
+import com.example.demo.dto.FactureDto;
 
 import java.util.List;
 
 public interface FactureService {
-    List<Facture> findAllFactures();
+    List<FactureDto> findAllFactures();
 
-    Facture findById(Long id);
+    FactureDto findById(Long id);
 
-    Facture creerFacture(List<AchatDto> achats);
+    FactureDto creerFacture(List<AchatDto> achats);
 }

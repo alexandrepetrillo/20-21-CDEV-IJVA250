@@ -1,6 +1,6 @@
 package com.example.demo.controller.clientsidetemplating;
 
-import com.example.demo.controller.clientsidetemplating.dto.AchatDto;
+import com.example.demo.dto.AchatDto;
 import com.example.demo.service.FactureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

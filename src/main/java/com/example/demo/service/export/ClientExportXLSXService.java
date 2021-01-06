@@ -1,27 +1,27 @@
-package com.example.demo.service;
+package com.example.demo.service.export;
 
 import com.example.demo.entity.Client;
+import com.example.demo.repository.ClientRepository;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.time.LocalDate;
 
 @Service
-public class ClientExportXLSX {
+public class ClientExportXLSXService {
 
     @Autowired
-    private ClientService clientService;
+    private ClientRepository clientRepository;
 
     public static final int COL_NOM = 0;
     public static final int COL_PRENOM = 1;
     public static final int COL_AGE = 2;
 
-    public void clientsXLSX(ServletOutputStream outputStream) throws IOException {
+    public void export(ServletOutputStream outputStream) throws IOException {
         Workbook workbook = new XSSFWorkbook();
         //Apache POI
         Sheet sheet = workbook.createSheet("Clients");
@@ -44,7 +44,7 @@ public class ClientExportXLSX {
         CellStyle cellStyleBorder = newStyleBorder(workbook);
 
         int iRow = 1;
-        for (Client client : clientService.findAllClients()) {
+        for (Client client : clientRepository.findAll()) {
             Row row = sheet.createRow(iRow++);
 
             Cell cellNom = row.createCell(COL_NOM);

@@ -1,7 +1,7 @@
 package com.example.demo.controller.clientsidetemplating;
 
-import com.example.demo.controller.clientsidetemplating.dto.AchatDto;
-import com.example.demo.controller.clientsidetemplating.dto.FactureDto;
+import com.example.demo.dto.AchatDto;
+import com.example.demo.dto.FactureDto;
 import com.example.demo.entity.Article;
 import com.example.demo.repository.ArticleRepository;
 import com.example.demo.repository.FactureRepository;

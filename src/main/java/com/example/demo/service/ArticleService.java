@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.controller.clientsidetemplating.dto.ArticleDto;
-import com.example.demo.entity.Article;
+import com.example.demo.dto.ArticleDto;
 
 import java.util.List;
 

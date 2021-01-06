@@ -1,35 +1,35 @@
-package com.example.demo.service;
+package com.example.demo.service.export;
 
 import com.example.demo.entity.Client;
 import com.example.demo.entity.Facture;
 import com.example.demo.entity.LigneFacture;
+import com.example.demo.repository.ClientRepository;
+import com.example.demo.repository.FactureRepository;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.ServletOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
 @Service
-public class FactureExportXLSX {
+public class FactureExportXLSXService {
 
     @Autowired
-    private ClientService clientService;
+    private ClientRepository clientRepository;
     @Autowired
-    private FactureService factureService;
+    private FactureRepository factureRepository;
 
-    public void factureXLSX(Long idClient, OutputStream outputStream) throws IOException {
+    public void export(Long idClient, OutputStream outputStream) throws IOException {
         //TODO
-        factureXLSX(outputStream);
     }
 
-    public void factureXLSX(OutputStream outputStream) throws IOException {
+    public void export(OutputStream outputStream) throws IOException {
         Workbook workbook = new XSSFWorkbook();
 
-        for (Client client : clientService.findAllClients()) {
+        for (Client client : clientRepository.findAll()) {
             int nbFactures = client.getFactures().size();
             if (nbFactures > 0) {
                 Sheet sheetClient = workbook.createSheet(client.getNom() + " " + client.getPrenom());

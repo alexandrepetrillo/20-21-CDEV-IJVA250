@@ -1,23 +1,21 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.controller.clientsidetemplating.dto.AchatDto;
-import com.example.demo.entity.Article;
+import com.example.demo.dto.AchatDto;
+import com.example.demo.dto.FactureDto;
 import com.example.demo.entity.Client;
 import com.example.demo.entity.Facture;
-import com.example.demo.entity.LigneFacture;
-import com.example.demo.repository.ArticleRepository;
+import com.example.demo.repository.ClientRepository;
 import com.example.demo.repository.FactureRepository;
-import com.example.demo.service.ArticleService;
-import com.example.demo.service.ClientService;
 import com.example.demo.service.FactureService;
+import com.example.demo.service.mapper.FactureMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Service contenant les actions métiers liées aux factures.
@@ -27,54 +25,49 @@ import java.util.Set;
 public class FactureServiceImpl implements FactureService {
 
     private FactureRepository factureRepository;
-    private ArticleRepository articleRepository;
-    private ClientService clientService;
+    private MoteurFacturationImpl moteurFacturationImpl;
+    private FactureMapper factureMapper;
+    private ClientRepository clientRepository;
 
     @Autowired
     public FactureServiceImpl(
             FactureRepository factureRepository,
-            ArticleRepository articleRepository,
-            ClientService clientService
-            ) {
+            MoteurFacturationImpl moteurFacturationImpl,
+            FactureMapper factureMapper,
+            ClientRepository clientRepository) {
         this.factureRepository = factureRepository;
-        this.articleRepository = articleRepository;
-        this.clientService = clientService;
+        this.moteurFacturationImpl = moteurFacturationImpl;
+        this.factureMapper = factureMapper;
+        this.clientRepository = clientRepository;
     }
 
     @Override
-    public List<Facture> findAllFactures() {
-        return factureRepository.findAll();
+    public List<FactureDto> findAllFactures() {
+        List<Facture> factures = factureRepository.findAll();
+        // Transformation d'une liste de Facture en liste de FactureDto
+        return factures.stream().map(facture -> factureMapper.factureDto(facture)).collect(toList());
     }
 
     @Override
-    public Facture findById(Long id) {
-        return factureRepository.findById(id).get();
+    public FactureDto findById(Long id) {
+        Facture facture = factureRepository.findById(id).get();
+        // Transformation d'une Facture en FactureDto
+        return factureMapper.factureDto(facture);
     }
 
     @Override
-    public Facture creerFacture(List<AchatDto> achats) {
+    public FactureDto creerFacture(List<AchatDto> achats) {
         Client client = getClientConnecte();
-
-        Facture facture = new Facture();
-        facture.setClient(client);
-        Set<LigneFacture> lignesFactures = new HashSet<>();
-        for (AchatDto achat : achats) {
-            LigneFacture ligneFacture = new LigneFacture();
-            long articleId = achat.getArticleId();
-            Article article = articleRepository.findById(articleId).get();
-            ligneFacture.setArticle(article);
-            ligneFacture.setQuantite(achat.getQuantite());
-            ligneFacture.setFacture(facture);
-            lignesFactures.add(ligneFacture);
-        }
-        facture.setLigneFactures(lignesFactures);
-        factureRepository.save(facture);
-        return facture;
+        Facture facture = moteurFacturationImpl.facturer(achats, client);
+        FactureDto factureDto = factureMapper.factureDto(facture);
+        return factureDto;
     }
 
+    /**
+     * Code en dur pour simplifier
+     */
     private Client getClientConnecte() {
-        // Code en dur pour simplifier
-        List<Client> allClients = clientService.findAllClients();
+        List<Client> allClients = clientRepository.findAll();
         int iRandom = new Random().nextInt(allClients.size());
         return allClients.get(iRandom);
     }

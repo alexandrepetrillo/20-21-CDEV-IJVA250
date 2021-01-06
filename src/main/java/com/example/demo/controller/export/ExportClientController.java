@@ -1,8 +1,7 @@
 package com.example.demo.controller.export;
 
-import com.example.demo.entity.Client;
-import com.example.demo.service.ClientExportXLSX;
-import com.example.demo.service.ClientService;
+import com.example.demo.service.export.ClientExportCVSService;
+import com.example.demo.service.export.ClientExportXLSXService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.LocalDate;
-import java.util.List;
 
 /**
  * Controller pour réaliser export des clients.
@@ -22,10 +19,10 @@ import java.util.List;
 public class ExportClientController {
 
     @Autowired
-    private ClientService clientService;
+    private ClientExportCVSService clientExportCVSService;
 
     @Autowired
-    private ClientExportXLSX clientExportXLSX;
+    private ClientExportXLSXService clientExportXLSXService;
 
     /**
      * Export des clients au format CSV.
@@ -35,14 +32,7 @@ public class ExportClientController {
         response.setContentType("text/csv");
         response.setHeader("Content-Disposition", "attachment; filename=\"export-clients.csv\"");
         PrintWriter writer = response.getWriter();
-
-        writer.println("Nom;Prénom;Age");
-        List<Client> clients = clientService.findAllClients();
-        for (Client client : clients) {
-            int age = LocalDate.now().getYear() - client.getDateNaissance().getYear();
-            String line = client.getNom() + ";" + client.getPrenom() + ";" + age;
-            writer.println(line);
-        }
+        clientExportCVSService.export(writer);
     }
 
     /**
@@ -52,7 +42,7 @@ public class ExportClientController {
     public void clientsXLSX(HttpServletResponse response) throws IOException {
         response.setContentType("application/vnd.ms-excel");
         response.setHeader("Content-Disposition", "attachment; filename=\"clients.xlsx\"");
-        clientExportXLSX.clientsXLSX(response.getOutputStream());
+        clientExportXLSXService.export(response.getOutputStream());
     }
 
 }

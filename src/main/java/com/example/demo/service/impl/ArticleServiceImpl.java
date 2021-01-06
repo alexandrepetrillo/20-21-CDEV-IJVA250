@@ -1,9 +1,10 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.controller.clientsidetemplating.dto.ArticleDto;
+import com.example.demo.dto.ArticleDto;
 import com.example.demo.entity.Article;
 import com.example.demo.repository.ArticleRepository;
 import com.example.demo.service.ArticleService;
+import com.example.demo.service.mapper.ArticleMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,20 +21,22 @@ import static java.util.stream.Collectors.toList;
 public class ArticleServiceImpl implements ArticleService {
 
     private ArticleRepository articleRepository;
+    private ArticleMapper articleMapper;
 
-    public ArticleServiceImpl(ArticleRepository articleRepository) {
+    public ArticleServiceImpl(ArticleRepository articleRepository, ArticleMapper articleMapper) {
         this.articleRepository = articleRepository;
+        this.articleMapper = articleMapper;
     }
 
     @Override
     public List<ArticleDto> findAll() {
-        return articleRepository.findAll().stream().map(this::toDto).collect(toList());
+        return articleRepository.findAll().stream().map(article -> articleMapper.articleDto(article)).collect(toList());
     }
 
     @Override
     public ArticleDto findById(long articleId) {
         Optional<Article> article = articleRepository.findById(articleId);
-        return toDto(article.get());
+        return articleMapper.articleDto(article.get());
     }
 
     @Override
@@ -42,17 +45,14 @@ public class ArticleServiceImpl implements ArticleService {
         article.setLibelle(dto.getLibelle());
         article.setPrix(dto.getPrix());
         articleRepository.save(article);
-        return toDto(article);
+        return articleMapper.articleDto(article);
     }
 
     @Override
     public ArticleDto modifierStock(Long id, Integer quantity) {
         Article article = articleRepository.findById(id).get();
         article.setStock(quantity);
-        return toDto(article);
+        return articleMapper.articleDto(article);
     }
 
-    private ArticleDto toDto(Article article) {
-        return new ArticleDto(article.getId(), article.getLibelle(), article.getPrix(), article.getStock());
-    }
 }
